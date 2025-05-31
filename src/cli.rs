@@ -1,3 +1,4 @@
+use anyhow::Result;
 use clap::Parser;
 
 /// Find the center coordinate from a set of latitude and longitude pairs
@@ -9,14 +10,14 @@ pub struct Cli {
 }
 
 impl Cli {
-    pub fn parse_coordinates(&self) -> Result<(Vec<f64>, Vec<f64>), String> {
+    pub fn parse_coordinates(&self) -> Result<(Vec<f64>, Vec<f64>)> {
         let mut latitudes = Vec::new();
         let mut longitudes = Vec::new();
 
         for coord_str in &self.coordinates {
             let parts: Vec<&str> = coord_str.split(',').collect();
             if parts.len() != 2 {
-                return Err(format!(
+                return Err(anyhow::anyhow!(
                     "Invalid coordinate format: '{}'. Expected 'lat,lon'",
                     coord_str
                 ));
@@ -25,11 +26,11 @@ impl Cli {
             let lat = parts[0]
                 .trim()
                 .parse::<f64>()
-                .map_err(|_| format!("Invalid latitude: '{}'", parts[0]))?;
+                .map_err(|_| anyhow::anyhow!("Invalid latitude: '{}'", parts[0]))?;
             let lon = parts[1]
                 .trim()
                 .parse::<f64>()
-                .map_err(|_| format!("Invalid longitude: '{}'", parts[1]))?;
+                .map_err(|_| anyhow::anyhow!("Invalid longitude: '{}'", parts[1]))?;
 
             latitudes.push(lat);
             longitudes.push(lon);

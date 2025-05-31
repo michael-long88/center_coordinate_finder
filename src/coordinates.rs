@@ -1,4 +1,5 @@
-use std::{error::Error, f64::consts::PI, iter::zip};
+use anyhow::Result;
+use std::{f64::consts::PI, iter::zip};
 
 pub struct Coordinate {
     latitude: f64,
@@ -21,9 +22,11 @@ impl Coordinate {
 pub fn coordinates_from_vectors(
     latitudes: Vec<f64>,
     longitudes: Vec<f64>,
-) -> Result<Vec<Coordinate>, Box<dyn Error>> {
+) -> Result<Vec<Coordinate>> {
     if latitudes.len() != longitudes.len() {
-        return Err("Vectors of latitudes and longitudes must have the same length".into());
+        return Err(anyhow::anyhow!(
+            "Vectors of latitudes and longitudes must have the same length"
+        ));
     }
 
     let coordinates: Vec<Coordinate> = zip(latitudes.iter(), longitudes.iter())

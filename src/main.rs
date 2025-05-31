@@ -1,14 +1,15 @@
 mod cli;
 mod coordinates;
 
+use anyhow::Result;
 use clap::Parser;
 use cli::Cli;
 use coordinates::{coordinates_from_vectors, get_center_from_degrees};
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    let (latitudes, longitudes) = cli.parse_coordinates().map_err(|e| e.to_string())?;
+    let (latitudes, longitudes) = cli.parse_coordinates()?;
 
     let coordinates = coordinates_from_vectors(latitudes, longitudes)?;
     let center = get_center_from_degrees(coordinates);
