@@ -26,20 +26,19 @@ fn get_center_from_degrees(latitudes: Vec<f64>, longitudes: Vec<f64>) -> (f64, f
         lat = degrees_to_radians(latitudes[i]);
         lon = degrees_to_radians(longitudes[i]);
 
-        x = x + (lat.cos() * lon.cos());
-        y = y + (lat.cos() * lon.sin());
-        z = z + lat.sin();
+        x += lat.cos() * lon.cos();
+        y += lat.cos() * lon.sin();
+        z += lat.sin();
     }
 
     let num_coords = num_coords as f64;
 
-    x = x / num_coords;
-    y = y / num_coords;
-    z = z / num_coords;
+    x /= num_coords;
+    y /= num_coords;
+    z /= num_coords;
 
     lon = y.atan2(x);
-    let mut hyp = &x * &x + &y * &y;
-    hyp = hyp.sqrt();
+    let hyp = (x * x + y * y).sqrt();
     lat = z.atan2(hyp);
 
     (radians_to_degrees(lat), radians_to_degrees(lon))
