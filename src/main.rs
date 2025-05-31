@@ -1,26 +1,26 @@
-use std::f32::consts::PI;
+use std::f64::consts::PI;
 
 fn main() {
-    let lats: Vec<f32> = vec![33.6956461, 34.1984435];
-    let longs: Vec<f32> = vec![-78.8900409, -79.7671658];
+    let lats: Vec<f64> = vec![33.6956461, 34.1984435];
+    let longs: Vec<f64> = vec![-78.8900409, -79.7671658];
     println!("{:?}", get_center_from_degrees(lats, longs));
 }
 
-fn radians_to_degrees(radians: f32) -> f32 {
+fn radians_to_degrees(radians: f64) -> f64 {
     radians * 180.0 / PI
 }
 
-fn degrees_to_radians(degrees: f32) -> f32 {
+fn degrees_to_radians(degrees: f64) -> f64 {
     degrees * PI / 180.0
 }
 
-fn get_center_from_degrees(latitudes: Vec<f32>, longitudes: Vec<f32>) -> (f32, f32) {
+fn get_center_from_degrees(latitudes: Vec<f64>, longitudes: Vec<f64>) -> (f64, f64) {
     let num_coords = latitudes.len();
-    let mut x: f32 = 0.0;
-    let mut y: f32 = 0.0;
-    let mut z: f32 = 0.0;
-    let mut lat: f32;
-    let mut lon: f32;
+    let mut x: f64 = 0.0;
+    let mut y: f64 = 0.0;
+    let mut z: f64 = 0.0;
+    let mut lat: f64;
+    let mut lon: f64;
 
     for i in 0..num_coords {
         lat = degrees_to_radians(latitudes[i]);
@@ -31,7 +31,7 @@ fn get_center_from_degrees(latitudes: Vec<f32>, longitudes: Vec<f32>) -> (f32, f
         z = z + lat.sin();
     }
 
-    let num_coords = num_coords as f32;
+    let num_coords = num_coords as f64;
 
     x = x / num_coords;
     y = y / num_coords;
